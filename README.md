@@ -1,2 +1,2 @@
 # eq_plots
-Gráficas de sismos repetitivos para diversos periodos de tiempo.
+Gráficas de sismos totales, sismos repetitivos y comparativas entre ambos para determinados periodos de tiempo (definidos por get_recs)
