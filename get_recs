@@ -1,0 +1,114 @@
+#!usr/local/bin/python
+#-*-coding:UTF-*-
+
+#Version 3.0.
+
+#06/02/20.
+#This script can take two dates (in YYYY-MM-DD format) as arguments, and returns three text files with the frequency of earthquakes for:
+#each day: rec_day.txt
+#each week: rec_week.txt
+#each month: rec_month.txt
+#It can only take '2019-07-21' as end date argument, as this is the limit of the present catalog.
+
+from datetime import *
+
+cat = open('/Users/laboratorioelectronica/Laura/CATALOG_2001_2019.DAT', 'r')
+
+catl = cat.readlines()
+
+eqday = []
+eqmth = []
+eqwk = []
+
+for line in catl:
+	dte = (line.split()[0])
+	dte = dte.replace('/', '-'
+  
+	eqday.append(dte)
+	eyr = (dte.split('-')[0])
+	emth = (dte.split('-')[1])
+	edw = int(dte.split('-')[2])
+
+	eachmonth = eyr + '-' + emth
+	eqmth.append(eachmonth)
+	if edw>=1 and edw<8:
+		edw = '01'
+	elif edw>=8 and edw<15:
+		edw = '02'
+	elif edw>=15 and edw<22:
+		edw = '03'
+	else:
+		edw = '04'
+
+	eachweek = eyr + '-' + emth + '-' + edw
+	eqwk.append(eachweek)
+
+
+#sdate = '2001-01-01'
+#edate = '2019-07-21'
+sdate = str(input('Insert start date (YYYY-MM-DD): '))
+edate = str(input('Insert end date (YYYY-MM-DD): '))
+
+startdte = datetime.strptime(sdate, '%Y-%m-%d')
+enddte = datetime.strptime(edate, '%Y-%m-%d')
+deldays = (enddte - startdte).days
+counter = 0
+
+eday = []
+emth = []
+ewk = []
+for counter in range(deldays+1):
+	eachday = startdte + timedelta(days=(counter))
+	eachday = str(eachday)
+	eachday = (eachday.split()[0])
+	eday.append(eachday)
+	yr = (eachday.split('-')[0])
+	mth = (eachday.split('-')[1])
+	dw = int(eachday.split('-')[2])
+	if dw>=1 and dw<8:
+		dw = '01'
+	elif dw>=8 and dw<15:
+		dw = '02'
+	elif dw>=15 and dw<22:
+		dw = '03'
+	else:
+		dw = '04'
+
+
+	eachmonth = yr + '-' + mth
+	eachweek = eachmonth + '-' + dw
+	emth.append(eachmonth)
+	ewk.append(eachweek)
+ewku = sorted(set(ewk))
+emthu = sorted(set(emth))
+
+recaday = open('rec_days.txt', 'w')
+recaweek = open('rec_week.txt', 'w')
+recamonth = open('rec_month.txt', 'w')
+
+for e in eday:
+	recday = eqday.count(e)
+	recday = str(recday) + '\n'
+	recaday.write(e)
+	recaday.write('	')
+	recaday.write(recday)
+
+recaday.close()
+
+for w in ewku:
+	recwk = eqwk.count(w)
+	recwk = str(recwk) + '\n'
+	recaweek.write(w)
+	recaweek.write('	')
+	recaweek.write(recwk)
+
+recaweek.close()
+
+for m in emthu:
+	recmth = eqmth.count(m)
+	recmth = str(recmth) + '\n'
+	recamonth.write(m)
+	recamonth.write('	')
+	recamonth.write(recmth)
+
+recamonth.close()
