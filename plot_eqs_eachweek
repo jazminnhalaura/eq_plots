@@ -1,0 +1,48 @@
+#!usr/local/bin/python
+#-*-coding: UTF -*-
+
+import numpy as np
+import matplotlib.pyplot as plt
+from datetime import *
+import matplotlib.dates
+from  matplotlib.ticker import *
+recweek = open ('rec_week.txt', 'r')
+repweek = open('rep_week.txt', 'r')
+rw = recweek.readlines()
+rp = repweek.readlines()
+xw = []
+yw = []
+xp = []
+yp = []
+
+for w in rw:
+	x = w.split('	')
+	week = x[0]
+	xw.append(week)
+	yw.append(int(x[1]))
+
+for p in rp:
+	p = p.split('   ')
+	rep = (p[0]).split('	')[0]
+	xp.append(rep)
+	yp.append(int((p[0]).split('	')[1]))
+
+yrange= np.arange(0, (max(yw)+100), 100)
+range = int(len(xw)/20)
+plt.plot(xw, yw, color = 'violet', label = 'Total Earthquakes')
+plt.plot(xp, yp, color = 'magenta', label = 'Repeating Earthquakes')
+plt.xticks(rotation = 45)
+plt.yticks(yrange)
+
+ax =plt.gca()
+ax.set_xticks(xw[::range])
+
+#title = ('Number of earthquakes per week. Period ' + ((str(xw[0])).split()[0]) + ' to ' + ((str(xw[-1])).split()[0]))
+#title = ('Number of repeating earthquakes per week. Period ' + ((str(xw[0])).split()[0]) + ' to ' + ((str(xw[-1])).split()[0]))
+title = ('Number of earthquakes and repeating earthquakes per week. Period ' + ((str(xw[0])).split()[0]) + ' to ' + ((str(xw[-1])).split()[0]))
+plt.title(title, loc = 'center')
+plt.xlabel('Date')
+plt.ylabel('Number of earthquakes')
+plt.legend()
+
+plt.show()
