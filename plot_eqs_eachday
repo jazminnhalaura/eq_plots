@@ -1,0 +1,49 @@
+#!usr/local/bin/python
+#-*-coding: UTF-*-
+
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.ticker import *
+
+recday = open('rec_days.txt', 'r')
+repday = open('rep_days.txt', 'r')
+rd = recday.readlines()
+rp = repday.readlines()
+xp = []
+yp = []
+xd = []
+yd = []
+
+for p in rp:
+	p = p.split('   ')
+	rep = (p[0]).split('	')[0]
+	#print(rep)
+	xp.append(rep)
+	yp.append(int((p[0]).split('	')[1]))
+
+for d in rd:
+	d = d.split('	')
+	xd.append(d[0])
+	yd.append(int(d[1]))
+
+
+yrange = np.arange(0, (max(yd)+20), 20)
+xrange = int(len(xp)/20)
+
+plt.plot(xp, yp, color = 'deeppink', label='Repeating earthquakes')
+plt.plot(xd, yd, color = 'lightpink', label = 'Total earthquakes')
+plt.yticks(yrange)
+ax = plt.gca()
+ax.set_xticks(xd[::xrange])
+plt.xticks(rotation = 45)
+
+#title = ('Number of earthquakes per day. Period ' + ((str(xd[0])).split()[0]) + ' to ' + ((str(xd[-1])).split()[0]))
+#title = ('Number of repeating earthquakes per day. Period ' + ((str(xd[0])).split()[0]) + ' to ' + ((str(xd[-1])).split()[0]))
+title = ('Number of earthquakes and repeating earthquakes per day. Period ' + ((str(xd[0])).split()[0]) + ' to ' + ((str(xd[-1])).split()[0]))
+
+plt.title(title, loc='center')
+plt.xlabel('Date')
+plt.ylabel('Number of earthquakes')
+#plt.ylabel('Number of repeating earthquakes')
+plt.legend()
+plt.show()
