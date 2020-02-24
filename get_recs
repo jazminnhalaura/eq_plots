@@ -9,11 +9,12 @@
 #each week: rec_week.txt
 #each month: rec_month.txt
 #It can only take '2019-07-21' as end date argument, as this is the limit of the present catalog.
-
+#Edit: it can take end date arguments past the limit of the catalog, but the frequency will result 0. This way the catalog can be extended if necessary.
+#Change the inputs (cat variable) and outputs (recaday, recaweek, recamonth variables) for total earthquakes and repeating earthquakes.
 from datetime import *
 
-cat = open('/Users/laboratorioelectronica/Laura/CATALOG_2001_2019.DAT', 'r')
-
+cat = open('/Users/laboratorioelectronica/Laura/CATALOG_2001_2019.DAT', 'r'
+#cat = open('/Users/laboratorioelectronica/Laura/dates_crs.dat', 'r')
 catl = cat.readlines()
 
 eqday = []
@@ -85,7 +86,9 @@ emthu = sorted(set(emth))
 recaday = open('rec_days.txt', 'w')
 recaweek = open('rec_week.txt', 'w')
 recamonth = open('rec_month.txt', 'w')
-
+#recaday = open('rep_days.txt', 'w')
+#recaweek = open('rep_week.txt', 'w')
+#recamonth = open('rep_month.txt', 'w')
 for e in eday:
 	recday = eqday.count(e)
 	recday = str(recday) + '\n'
